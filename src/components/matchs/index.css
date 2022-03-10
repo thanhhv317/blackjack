@@ -1,0 +1,101 @@
+.height-top {
+    min-height: 8rem;
+}
+
+.height-mid {
+    min-height: 7rem;
+}
+
+.jack-top {
+    /* background-color: antiquewhite; */
+}
+
+.jack-mid {}
+
+.jack-left {
+    /* background-color: antiquewhite; */
+}
+
+.jack-right {
+    /* background-color: antiquewhite; */
+}
+
+.jack-bot {
+    background-color: antiquewhite;
+    min-height: 10rem;
+}
+
+
+/* the bai  */
+
+.card__not-me {
+    width: 5rem;
+}
+
+.card__of-me {
+    width: 7rem;
+}
+
+
+/* end the bai  */
+
+.card-left.card-2 {
+    position: absolute;
+    left: 30px;
+}
+
+.card-left.card-3 {
+    position: absolute;
+    left: 50px;
+}
+
+.card-left.card-4 {
+    position: absolute;
+    left: 70px;
+}
+
+.card-left.card-5 {
+    position: absolute;
+    left: 90px;
+}
+
+
+/* cards right  */
+
+.card-right.card-2 {
+    position: absolute;
+    right: 30px;
+}
+
+.card-right.card-3 {
+    position: absolute;
+    right: 50px;
+}
+
+.card-right.card-4 {
+    position: absolute;
+    right: 70px;
+}
+
+.card-right.card-5 {
+    position: absolute;
+    right: 90px;
+}
+
+
+/* chat container  */
+
+.chat-container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.box-chat__top {
+    height: 3rem;
+}
+
+.box-chat__bottom {
+    height: 3rem;
+}
