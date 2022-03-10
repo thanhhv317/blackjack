@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 
 export class BottomPlayer extends React.Component {
 
+
     render() {
 
-        const userInfo = JSON.parse(this.props.userInfo);
+        const {me} = this.props;
 
         return (
             <div>
@@ -37,16 +38,19 @@ export class BottomPlayer extends React.Component {
                             </form>
                         </div>
                         <div className="col-md-2 sm-2">
-                            <p className='text-right'>Coin: {userInfo.coin}</p>
+                            <p className='text-right'>Coin: {me.coin}</p>
                         </div>
                     </div>
                     <div className="row justify-content-md-center text-center">
                         <div className="col-sm ">
+                            {me.cards.map((card, key) => {
+                                return  <img key={key} src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
+                            })}
+                            {/* <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
                             <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
                             <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
                             <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
-                            <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
-                            <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
+                            <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" /> */}
 
                         </div>
 
