@@ -4,19 +4,20 @@ import * as axios from 'axios';
 export class TopPlayer extends React.Component {
 
     initialState = {
-        id: "",
-        username: "",
-        coin: 0,
-        create_time: "",
-        update_time: "",
-        cards: [],
-        is_done: false
+        // id: "",
+        // username: "",
+        // coin: 0,
+        // create_time: "",
+        // update_time: "",
+        // cards: [],
+        // is_done: false,
+        // is_drawing: false
     }
 
     state = this.initialState;
 
     componentDidMount() {
-        const { socket, user } = this.props;
+        const { socket, user, is_drawing } = this.props;
         console.log("user", user);
         this.setState({
             ...user
@@ -48,6 +49,14 @@ export class TopPlayer extends React.Component {
         })
     }
 
+    renderStatusIsDrawing = () => {
+        const { is_drawing } = this.props.user;
+        if (!!is_drawing) {
+            return "btn btn-danger btn-sm "
+        }
+        return "btn btn-outline-info btn-sm"
+    }
+
     renderButtonDraw = () => {
         const { is_done } = this.state;
         if (!!is_done)
@@ -64,7 +73,7 @@ export class TopPlayer extends React.Component {
             <div>
                 <div className="container">
                     <div className="text-center">
-                        <button className="btn btn-outline-info  btn-sm" disabled>{username} - {coin} coin</button>
+                        <button className={this.renderStatusIsDrawing()} disabled>{username} - {coin} coin</button>
                         {this.renderButtonDraw()}
                     </div>
                     <div className="row justify-content-md-center text-center">
@@ -75,10 +84,6 @@ export class TopPlayer extends React.Component {
                                     <img key={key} src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__not-me mt-2" />
                                 )
                             })}
-
-
-                            {/* <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__not-me mt-2" />
-                            <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__not-me mt-2" /> */}
                         </div>
                     </div>
                     <div className="row box-chat__top">

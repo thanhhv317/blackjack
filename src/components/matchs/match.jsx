@@ -15,6 +15,8 @@ export class Match extends React.Component {
             cards: []
         },
         isTurnDrawCards: false,
+        isLoading: false,
+        room: ""
     }
 
     state = this.initialState;
@@ -28,7 +30,8 @@ export class Match extends React.Component {
                 ...userInfo,
                 cards: [],
                 is_done: false
-            }
+            },
+            room
         })
 
         this.props.socket.emit("get_room", room, (response) => {
@@ -42,7 +45,8 @@ export class Match extends React.Component {
                         username: "",
                         create_time: "",
                         update_time: "",
-                        is_done: false
+                        is_done: false,
+                        is_drawing: false
                     }
                 }) || [];
 
@@ -54,6 +58,10 @@ export class Match extends React.Component {
 
         this.props.socket.on('start_game_send_info_to_everybody', response => {
             console.log("a co su kien roi", response);
+        })
+        // next_player
+        this.props.socket.on('next_player', response => {
+            console.log("oh co nguoi vua rut xong bai ne", response);
         })
     }
 
@@ -71,7 +79,21 @@ export class Match extends React.Component {
         const { isTurnDrawCards } = this.state;
         if (isTurnDrawCards) {
             return (
-                <button className="btn btn-outline-success p-4 m-1">Rut</button>
+                <div>
+                    <button className="btn btn-outline-success p-4 m-1" onClick={() => this.drawCards()}>Rut</button>
+                    <button className="btn btn-outline-danger p-4 m-1" onClick={() => this.doneDrawCards()}>Giang</button>
+                </div>
+            )
+        }
+        return
+    }
+    
+
+    renderIsLoading = () => {
+        const {isLoading} = this.state;
+        if (isLoading) {
+            return (
+                "vui long cho "
             )
         }
         return
@@ -118,9 +140,71 @@ export class Match extends React.Component {
                         ...me, cards: cardsOfMe
                     }
                 })
+
+                // nguoi nao rut bai truoc day
+                if (response.user_draw.user_id === userId) {
+                    this.setState({
+                        isTurnDrawCards: true
+                    })
+                }
             }
         })
     }
+
+
+    drawCards = () => {
+        const { matchId } = this.state;
+        const userInfo = JSON.parse(this.props.userInfo);
+        this.props.socket.emit("draw_cards", matchId, (response) => {
+            console.log("rut bai", response);
+            if (!!response) {
+                let user = response.participant.find((participant) => {
+                    return participant.user_id === userInfo.id
+                });
+                if (!!user.cards) {
+                    this.setState({
+                        me: {
+                            me: this.state.me,
+                            cards: user.cards,
+                            is_finish: user.is_finish
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    // toi da rut xong
+    doneDrawCards = () => {
+        const { matchId, users, room } = this.state;
+        this.props.socket.emit("next_user_draw_cards", matchId, room, (response) => {
+            console.log("user rut tiep theo la: ", response)
+            if (!!response) {
+                this.setState({
+                    isTurnDrawCards: false,
+                    isLoading: true
+                })
+
+                let tmpUsers = users.map((user) => {
+                    if (user.id === response.user_id) {
+                        return {
+                            ...user,
+                            is_drawing: true
+                        }
+                    }
+                    else {
+                        return user;
+                    }
+                })
+
+                this.setState({
+                    users: tmpUsers
+                })
+
+            }
+        })
+    }
+
 
     renderTopPlayer = () => {
         // user[0]
@@ -170,8 +254,7 @@ export class Match extends React.Component {
                             <div className="row justify-content-md-center text-center">
                                 {this.renderButtonPlayGame()}
                                 {this.renderButtonDrawCards()}
-                                <button className="btn btn-outline-danger p-4 m-1">Giang</button>
-
+                                {this.renderIsLoading()}
                             </div>
 
                         </div>
