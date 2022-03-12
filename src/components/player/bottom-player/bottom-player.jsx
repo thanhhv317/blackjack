@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 
 export class BottomPlayer extends React.Component {
 
+    getCard = (id) => {
+        return `./imgs/poker-symmetric-qr-Plain/${id}.svg`
+    }
 
     render() {
 
-        const {me} = this.props;
+        const { me } = this.props;
 
         return (
             <div>
@@ -44,7 +47,7 @@ export class BottomPlayer extends React.Component {
                     <div className="row justify-content-md-center text-center">
                         <div className="col-sm ">
                             {me.cards.map((card, key) => {
-                                return  <img key={key} src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
+                                return <img key={key} src={this.getCard(card.id)} alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
                             })}
                             {/* <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
                             <img src="./imgs/poker-symmetric-qr-Plain/2B.svg" alt="..." className="img-thumbnail card__of-me mt-1 mb-2" />
