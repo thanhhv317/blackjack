@@ -13,7 +13,8 @@ export class Match extends React.Component {
         users: [],
         me: {
             cards: []
-        }
+        },
+        isTurnDrawCards: false,
     }
 
     state = this.initialState;
@@ -50,6 +51,10 @@ export class Match extends React.Component {
                 });
             }
         })
+
+        this.props.socket.on('start_game_send_info_to_everybody', response => {
+            console.log("a co su kien roi", response);
+        })
     }
 
     renderButtonPlayGame = () => {
@@ -57,6 +62,16 @@ export class Match extends React.Component {
         if (!isRunning) {
             return (
                 <button className="btn btn-outline-success p-4 m-1" onClick={() => this.startGame()}>Choi</button>
+            )
+        }
+        return
+    }
+
+    renderButtonDrawCards = () => {
+        const { isTurnDrawCards } = this.state;
+        if (isTurnDrawCards) {
+            return (
+                <button className="btn btn-outline-success p-4 m-1">Rut</button>
             )
         }
         return
@@ -154,7 +169,7 @@ export class Match extends React.Component {
                         <div className="col-sm">
                             <div className="row justify-content-md-center text-center">
                                 {this.renderButtonPlayGame()}
-                                <button className="btn btn-outline-success p-4 m-1">Rut</button>
+                                {this.renderButtonDrawCards()}
                                 <button className="btn btn-outline-danger p-4 m-1">Giang</button>
 
                             </div>
